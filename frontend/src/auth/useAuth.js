@@ -1,0 +1,16 @@
+import { useContext } from "react";
+
+import { AuthContext } from "./AuthProvider";
+
+export default function useAuth() {
+  const auth = useContext(AuthContext);
+
+  if (!auth) {
+    throw new Error("useAuth must be used inside AuthProvider.");
+  }
+
+  return {
+    ...auth,
+    role: auth.user?.role || null,
+  };
+}

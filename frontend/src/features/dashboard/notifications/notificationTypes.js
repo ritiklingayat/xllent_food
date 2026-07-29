@@ -1,0 +1,31 @@
+export const NOTIFICATION_TYPES = {
+
+
+    LOW_STOCK:"LOW_STOCK",
+
+    NEW_ORDER:"NEW_ORDER",
+
+    PAYMENT_PENDING:"PAYMENT_PENDING",
+
+    TARGET_ACHIEVED:"TARGET_ACHIEVED",
+
+    USER_ACTIVITY:"USER_ACTIVITY",
+
+    SYSTEM_ALERT:"SYSTEM_ALERT"
+
+
+};
+
+
+
+export const PRIORITY = {
+
+
+    HIGH:"HIGH",
+
+    MEDIUM:"MEDIUM",
+
+    LOW:"LOW"
+
+
+};
