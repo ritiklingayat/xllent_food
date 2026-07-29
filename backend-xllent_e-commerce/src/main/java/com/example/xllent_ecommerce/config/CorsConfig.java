@@ -1,33 +1,54 @@
 package com.example.xllent_ecommerce.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.*;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsFilter corsFilter() {
 
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration configuration =
+                new CorsConfiguration();
 
-      configuration.setAllowedOrigins(
-                List.of(
-                    "https://xllent-retailers-ten.vercel.app",
-                    "https://xllent-retailers-ihpbxd4j5-sw-multimedia-team.vercel.app",
-                    "http://localhost:5173"
-                )
+        configuration.setAllowedOrigins(
+                List.of(frontendUrl)
         );
 
         configuration.setAllowedMethods(
-                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                Arrays.asList(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE",
+                        "OPTIONS"
+                )
         );
 
         configuration.setAllowedHeaders(
-                List.of("*")
+                Arrays.asList(
+                        "Authorization",
+                        "Content-Type",
+                        "Accept",
+                        "Origin",
+                        "X-Requested-With"
+                )
+        );
+
+        configuration.setExposedHeaders(
+                List.of("Authorization")
         );
 
         configuration.setAllowCredentials(true);
@@ -35,8 +56,11 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration(
+                "/**",
+                configuration
+        );
 
-        return source;
+        return new CorsFilter(source);
     }
 }

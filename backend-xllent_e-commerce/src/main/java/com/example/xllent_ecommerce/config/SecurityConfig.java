@@ -63,9 +63,12 @@ public class SecurityConfig {
                 // Authorization Rules
                 .authorizeHttpRequests(auth -> auth
 
+
                         // Public APIs
                         .requestMatchers(
-                                "/auth/**"
+                                "/auth/**",
+                                "/health",
+                            "/actuator/health"
                         ).permitAll()
 
                         // Everything else requires Login
