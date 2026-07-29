@@ -151,16 +151,16 @@ export default function ProductTable({
 
                       <p className="text-sm text-slate-600">
                         Super Stockist: ₹
-                        {formatPrice(product.finalSuperStockistPrice )}
+                        {formatPrice(product.superStockistPrice)}
                       </p>
 
                       <p className="text-sm text-slate-600">
                         Distributor: ₹
-                        {formatPrice(product.finalDistributorPrice )}
+                        {formatPrice(product.distributorPrice )}
                       </p>
 
                       <p className="text-sm text-slate-600">
-                        Shop: ₹{formatPrice(product.finalShopPrice )}
+                        Shop: ₹{formatPrice(product.shopPrice)} )}
                       </p>
 
                       <p className="text-xs text-slate-500">
