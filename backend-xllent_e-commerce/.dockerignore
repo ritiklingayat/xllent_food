@@ -2,7 +2,7 @@ target
 .idea
 .vscode
 .git
-.gitignore
+.gitignore 
 *.iml
 .env
 application-local.properties
