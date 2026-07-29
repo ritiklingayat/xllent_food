@@ -4,30 +4,38 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
-    @Value("${frontend.url}")
+    @Value("${frontend.url:http://localhost:5173}")
     private String frontendUrl;
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of(frontendUrl)
+                List.of(
+                        frontendUrl,
+                        "http://localhost:5173"
+                )
+        );
+
+        configuration.setAllowedOriginPatterns(
+                List.of(
+                        "https://xllent-food*.vercel.app"
+                )
         );
 
         configuration.setAllowedMethods(
-                Arrays.asList(
+                List.of(
                         "GET",
                         "POST",
                         "PUT",
@@ -38,7 +46,7 @@ public class CorsConfig {
         );
 
         configuration.setAllowedHeaders(
-                Arrays.asList(
+                List.of(
                         "Authorization",
                         "Content-Type",
                         "Accept",
@@ -48,10 +56,14 @@ public class CorsConfig {
         );
 
         configuration.setExposedHeaders(
-                List.of("Authorization")
+                List.of(
+                        "Authorization"
+                )
         );
 
         configuration.setAllowCredentials(true);
+
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
@@ -61,6 +73,6 @@ public class CorsConfig {
                 configuration
         );
 
-        return new CorsFilter(source);
+        return source;
     }
 }

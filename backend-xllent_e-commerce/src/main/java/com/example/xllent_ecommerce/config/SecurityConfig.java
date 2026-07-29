@@ -4,6 +4,7 @@ import com.example.xllent_ecommerce.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -23,7 +24,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
-     * Password Encoder
+     * Password encoder used for user passwords.
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -31,52 +32,80 @@ public class SecurityConfig {
     }
 
     /**
-     * Authentication Manager
+     * Authentication manager used during login.
      */
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration)
-            throws Exception {
+            AuthenticationConfiguration configuration
+    ) throws Exception {
 
         return configuration.getAuthenticationManager();
     }
 
     /**
-     * Security Filter Chain
+     * Main Spring Security configuration.
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
         http
 
-                // Disable CSRF
+                /*
+                 * Disable CSRF because this project
+                 * uses stateless JWT authentication.
+                 */
                 .csrf(csrf -> csrf.disable())
 
-                // Enable CORS
+                /*
+                 * Use the CorsConfigurationSource bean
+                 * from CorsConfig.java.
+                 */
                 .cors(Customizer.withDefaults())
 
-                // No Session (JWT)
+                /*
+                 * Do not create server-side sessions.
+                 */
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                )
 
-                // Authorization Rules
+                /*
+                 * API authorization rules.
+                 */
                 .authorizeHttpRequests(auth -> auth
 
+                        /*
+                         * Allow browser CORS preflight requests.
+                         */
+                        .requestMatchers(
+                                HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
 
-                        // Public APIs
+                        /*
+                         * Public APIs.
+                         */
                         .requestMatchers(
                                 "/auth/**",
                                 "/health",
-                            "/actuator/health"
+                                "/actuator/health",
+                                "/error"
                         ).permitAll()
 
-                        // Everything else requires Login
+                        /*
+                         * All remaining APIs require JWT login.
+                         */
                         .anyRequest().authenticated()
-
                 )
 
-                // Add JWT Filter
+                /*
+                 * Run JWT validation before Spring's
+                 * username-password authentication filter.
+                 */
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
