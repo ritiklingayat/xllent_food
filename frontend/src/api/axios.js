@@ -7,10 +7,24 @@ import axios from "axios";
  * ============================================================
  */
 
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  if (import.meta.env.PROD) {
+    return "https://xllent-food.onrender.com";
+  }
+
+  return "http://localhost:5000/api";
+};
+
 const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:5000/api",
+  baseURL: getApiBaseUrl(),
 
   timeout: 30000,
 
@@ -74,10 +88,7 @@ api.interceptors.response.use(
         }
 
         const response = await axios.post(
-          `${
-            import.meta.env.VITE_API_BASE_URL ||
-            "http://localhost:5000/api"
-          }/auth/refresh-token`,
+          `${getApiBaseUrl()}/auth/refresh-token`,
           {
             refreshToken,
           }

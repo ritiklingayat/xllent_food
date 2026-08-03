@@ -97,6 +97,15 @@ public class SecurityConfig {
                         ).permitAll()
 
                         /*
+                         * Public product catalogue access for the landing page.
+                         */
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/products",
+                                "/products/{id}"
+                        ).permitAll()
+
+                        /*
                          * All remaining APIs require JWT login.
                          */
                         .anyRequest().authenticated()
