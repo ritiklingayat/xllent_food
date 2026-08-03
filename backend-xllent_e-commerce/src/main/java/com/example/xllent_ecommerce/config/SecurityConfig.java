@@ -102,7 +102,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/products",
-                                "/products/{id}"
+                                "/products/**"
                         ).permitAll()
 
                         /*
