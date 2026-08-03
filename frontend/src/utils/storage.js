@@ -3,7 +3,7 @@
  */
 
 
-export const getStorage = (key)=>{
+export const getStorage = (key, defaultValue = null) => {
 
     try{
 
@@ -15,7 +15,7 @@ export const getStorage = (key)=>{
         ?
         JSON.parse(value)
         :
-        null;
+        defaultValue;
 
 
     }

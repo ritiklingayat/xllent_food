@@ -4,6 +4,7 @@ import com.example.xllent_ecommerce.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -68,8 +69,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/health",
-                            "/actuator/health"
+                                "/actuator/health"
                         ).permitAll()
+
+                        // Public catalogue: products added by admins can be viewed without login.
+                        .requestMatchers(HttpMethod.GET, "/products", "/products/**").permitAll()
 
                         // Everything else requires Login
                         .anyRequest().authenticated()

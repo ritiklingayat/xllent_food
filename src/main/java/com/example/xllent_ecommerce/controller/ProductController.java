@@ -38,7 +38,7 @@ public class ProductController {
     /**
      * Get All Products
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
@@ -50,7 +50,7 @@ public class ProductController {
     /**
      * Get Product By Id
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(
             @PathVariable Long id) {

@@ -229,7 +229,7 @@ async () => {
     getStorage(
       PRODUCTS_KEY,
       []
-    );
+    ) || [];
 
 
   return products.map(
