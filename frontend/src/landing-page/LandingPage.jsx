@@ -226,7 +226,8 @@ export default function LandingPage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product, idx) => {
                 const productImg = product.image || product.imageUrl || product.thumbnail || (product.images && product.images[0]);
-                const productPrice = product.shopPrice || product.mrp || product.sellingPrice || product.price || 0;
+                //const productPrice = product.shopPrice || product.mrp || product.sellingPrice || product.price || 0;
+                const productPrice = product.mrp
                 const productName = product.productName || product.name || "Unknown Product";
                 const productCategory = product.categoryName || product.category || "General";
                 
