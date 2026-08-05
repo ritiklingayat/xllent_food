@@ -24,7 +24,8 @@ public class CorsConfig {
         configuration.setAllowedOrigins(
                 List.of(
                         frontendUrl,
-                        "http://localhost:5173"
+                        "http://localhost:5173",
+                        "https://www.xllentfoods.in"
                 )
         );
 
