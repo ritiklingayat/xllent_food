@@ -252,7 +252,7 @@ export default function Categories() {
           <button
             type="button"
             onClick={openCreateDrawer}
-            className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2.5 font-semibold text-white shadow hover:bg-orange-600"
+            className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-4 py-2.5 font-semibold text-white shadow hover:bg-orange-600"
           >
             <Plus size={18} />
             Add Category
